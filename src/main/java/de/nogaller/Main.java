@@ -42,8 +42,8 @@ public class Main {
 		// This will disable WADL creation
 		rc.property(ServerProperties.WADL_FEATURE_DISABLE, true);
 
-		// FIXME set compressed transfer
-		enableCompression(rc);
+		// FIXME enable compressed transfer
+//		enableCompression(rc);
 
 		// create and start a new instance of grizzly http server
 		// exposing the Jersey application at BASE_URI
