@@ -12,9 +12,9 @@ import jakarta.ws.rs.client.Client;
 import jakarta.ws.rs.client.ClientBuilder;
 import jakarta.ws.rs.client.Entity;
 import jakarta.ws.rs.client.WebTarget;
-import jakarta.ws.rs.core.Response;
 
 public class TasksResourceTest {
+	private static final String PATH = "tasks";
 	private HttpServer server;
 	private WebTarget target;
 
@@ -40,33 +40,55 @@ public class TasksResourceTest {
 		server.shutdownNow();
 	}
 
-	@Test
-	public void getTaskList() {
-		String responseMsg = target.path("tasks").request().get(String.class);
-		assertEquals("111", responseMsg);
-	}
-
-	@Test
-	public void getTaskInformation() {
-		String responseMsg = target.path("tasks/info/321").request().get(String.class);
-		assertEquals("222 321", responseMsg);
-	}
-
-	@Test
-	public void modifyTask() throws Exception {
-		Response responseMsg = target.path("tasks").request().post(Entity.text("321"));
-		assertEquals("333", responseMsg.readEntity(String.class));
+	private WebTarget path() {
+		return target.path(PATH);
 	}
 
 	@Test
 	public void addNewTask() throws Exception {
-		Response responseMsg = target.path("tasks").request().put(Entity.text(""));
-		assertEquals("444", responseMsg.readEntity(String.class));
+		/* get list */
+		String out = path().request().get(String.class);
+		assertEquals("[]", out);
+
+		/* add item */
+		out = path().queryParam("text", "first").request().put(Entity.text("text")).readEntity(String.class);
+		assertEquals("1", out);
+
+		/* add item */
+		out = path().queryParam("text", "second").request().put(Entity.text("text")).readEntity(String.class);
+		assertEquals("2", out);
+
+		out = path().request().get(String.class);
+		assertEquals("[\"first\",\"second\"]", out);
+	}
+
+	@Test
+	public void modifyTask() throws Exception {
+		addNewTask();
+
+		/* update */
+		String out = target.path(PATH + "/1").queryParam("text", "third").request().post(Entity.text("text"))
+				.readEntity(String.class);
+		assertEquals("second", out);
+
+		/* getTaskInformation */
+		out = target.path(PATH + "/1").request().get(String.class);
+		assertEquals("third", out);
+
+		out = path().request().get(String.class);
+		assertEquals("[\"first\",\"third\"]", out);
 	}
 
 	@Test
 	public void deleteTask() throws Exception {
-		String responseMsg = target.path("tasks/321").request().delete(String.class);
-		assertEquals("555 321", responseMsg);
+		addNewTask();
+
+		/* delete */
+		String out = target.path(PATH + "/0").request().delete(String.class);
+		assertEquals("first", out);
+
+		out = path().request().get(String.class);
+		assertEquals("[\"second\"]", out);
 	}
+
 }
