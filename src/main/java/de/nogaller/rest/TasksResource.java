@@ -22,7 +22,7 @@ import jakarta.ws.rs.Produces;
 import jakarta.ws.rs.QueryParam;
 import jakarta.ws.rs.core.Response;
 
-@Path("/tasks")
+@Path("/")
 @Singleton
 public class TasksResource {
 

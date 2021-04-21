@@ -14,7 +14,7 @@ import jakarta.ws.rs.client.Entity;
 import jakarta.ws.rs.client.WebTarget;
 
 public class TasksResourceTest {
-	private static final String PATH = "tasks";
+	private static final String PATH = ""; // "tasks"
 	private HttpServer server;
 	private WebTarget target;
 
