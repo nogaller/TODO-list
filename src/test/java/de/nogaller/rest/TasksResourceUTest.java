@@ -2,6 +2,8 @@ package de.nogaller.rest;
 
 import static org.junit.Assert.assertEquals;
 
+import java.io.File;
+
 import org.junit.Before;
 import org.junit.Test;
 
@@ -60,5 +62,11 @@ public class TasksResourceUTest {
 
 		out = sut.getTaskList().getEntity();
 		assertEquals("[\"first\"]", out);
+	}
+
+	@Test
+	public void todo() throws Exception {
+		File file = new File("test");
+		System.out.println(file.getAbsolutePath());
 	}
 }
