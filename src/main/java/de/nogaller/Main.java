@@ -2,6 +2,7 @@ package de.nogaller;
 
 import java.io.IOException;
 import java.net.URI;
+import java.util.logging.LogManager;
 
 import org.glassfish.grizzly.http.server.HttpServer;
 import org.glassfish.jersey.grizzly2.httpserver.GrizzlyHttpServerFactory;
@@ -21,8 +22,12 @@ public class Main {
 	 * application.
 	 *
 	 * @return Grizzly HTTP server.
+	 * @throws IOException
+	 * @throws SecurityException
 	 */
-	public static HttpServer startServer() {
+	public static HttpServer startServer() throws SecurityException, IOException {
+		LogManager.getLogManager().readConfiguration(Main.class.getResourceAsStream("/all.properties"));
+
 		// create a resource config that scans for JAX-RS resources and providers
 		// in de.nogaller.rest package
 		final ResourceConfig rc = new ResourceConfig().packages("de.nogaller.rest");

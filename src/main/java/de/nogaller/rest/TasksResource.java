@@ -7,6 +7,7 @@ import static jakarta.ws.rs.core.Response.ok;
 import java.util.Iterator;
 import java.util.LinkedList;
 import java.util.List;
+import java.util.logging.Logger;
 
 import jakarta.inject.Singleton;
 import jakarta.ws.rs.Consumes;
@@ -24,6 +25,8 @@ import jakarta.ws.rs.core.Response;
 @Path("/tasks")
 @Singleton
 public class TasksResource {
+
+	private static final Logger logger = Logger.getLogger(TasksResource.class.getName());
 
 	private List<String> tasks = new LinkedList<>();
 
@@ -50,6 +53,8 @@ public class TasksResource {
 	@Path("/{taskId}")
 	@Produces(APPLICATION_JSON)
 	public Response getTaskInformation(@PathParam("taskId") String taskId) {
+		logger.finer(() -> "requesting details for: " + taskId);
+
 		int nr = Integer.parseInt(taskId);
 		return ok(tasks.get(nr)).build();
 	}
@@ -59,6 +64,7 @@ public class TasksResource {
 	@Consumes(TEXT_PLAIN)
 	@Produces(TEXT_PLAIN)
 	public Response modifyTask(@PathParam("taskId") String taskId, @QueryParam("text") @DefaultValue("") String text) {
+		logger.finest(() -> "Updading item " + taskId + " to: " + text);
 		int nr = Integer.parseInt(taskId);
 		String out = tasks.get(nr);
 		tasks.set(nr, text);
@@ -68,6 +74,7 @@ public class TasksResource {
 	@PUT
 	@Produces(TEXT_PLAIN)
 	public Response addNewTask(@QueryParam("text") @DefaultValue("") String text) {
+		logger.finest(() -> "add new task: " + text);
 		tasks.add(text);
 		return ok(Integer.toString(tasks.size())).build();
 	}
@@ -76,6 +83,7 @@ public class TasksResource {
 	@Path("/{taskId}")
 	@Produces(TEXT_PLAIN)
 	public Response deleteTask(@PathParam("taskId") String taskId) {
+		logger.finest(() -> "removing " + taskId);
 		int nr = Integer.parseInt(taskId);
 		String out = tasks.remove(nr);
 		return ok(out).build();
