@@ -5,11 +5,11 @@ import static org.glassfish.grizzly.utils.Charsets.UTF8_CHARSET;
 import java.io.IOException;
 import java.net.URI;
 import java.util.logging.LogManager;
-import java.util.logging.Logger;
 
+import org.glassfish.grizzly.http.server.CLStaticHttpHandler;
+import org.glassfish.grizzly.http.server.HttpHandler;
 import org.glassfish.grizzly.http.server.HttpServer;
 import org.glassfish.grizzly.http.server.ServerConfiguration;
-import org.glassfish.grizzly.http.server.StaticHttpHandler;
 import org.glassfish.jersey.grizzly2.httpserver.GrizzlyHttpServerFactory;
 import org.glassfish.jersey.message.DeflateEncoder;
 import org.glassfish.jersey.message.GZipEncoder;
@@ -54,9 +54,7 @@ public class Main {
 		config.setDefaultQueryEncoding(UTF8_CHARSET);
 
 		/* Serve static HTMLs from "web" folder */
-		String staticWebPath = Main.class.getClassLoader().getResource("web").getPath();
-		Logger.getLogger(Main.class.getName()).fine("Serving static content from: " + staticWebPath);
-		StaticHttpHandler httpHandler = new StaticHttpHandler(staticWebPath);
+		HttpHandler httpHandler = new CLStaticHttpHandler(Main.class.getClassLoader(), "web/");
 		httpHandler.setRequestURIEncoding(UTF8_CHARSET);
 		server.getServerConfiguration().addHttpHandler(httpHandler, "/");
 
