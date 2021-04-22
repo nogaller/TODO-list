@@ -28,22 +28,21 @@ public class TasksResource {
 
 	private static final Logger logger = Logger.getLogger(TasksResource.class.getName());
 
-	private List<String> tasks = new LinkedList<>();
+	/** Database stub */
+	private final List<Task> tasks = new LinkedList<>();
 
 	@GET
 	@Produces(APPLICATION_JSON)
 	public Response getTaskList() {
 		StringBuilder out = new StringBuilder("[");
 		if (!tasks.isEmpty()) {
-			out.append('"');
-			Iterator<String> iter = tasks.iterator();
+			Iterator<Task> iter = tasks.iterator();
 			// first element
 			out.append(iter.next());
 			while (iter.hasNext()) {
-				out.append("\",\"");
+				out.append(",");
 				out.append(iter.next());
 			}
-			out.append('"');
 		}
 		out.append("]");
 		return ok(out.toString()).build();
@@ -56,36 +55,38 @@ public class TasksResource {
 		logger.finer(() -> "requesting details for: " + taskId);
 
 		int nr = Integer.parseInt(taskId);
-		return ok(tasks.get(nr)).build();
+		return ok(tasks.get(nr).toString()).build();
 	}
 
 	@POST
 	@Path("/{taskId}")
 	@Consumes(TEXT_PLAIN)
-	@Produces(TEXT_PLAIN)
-	public Response modifyTask(@PathParam("taskId") String taskId, @QueryParam("text") @DefaultValue("") String text) {
-		logger.finest(() -> "Updading item " + taskId + " to: " + text);
+	@Produces(APPLICATION_JSON)
+	public Response modifyTask(@PathParam("taskId") String taskId, @QueryParam("text") @DefaultValue("") String text,
+			@QueryParam("date") @DefaultValue("") String date) {
+		logger.finest(() -> "Updading item " + taskId + " to: " + text + " @" + date);
 		int nr = Integer.parseInt(taskId);
-		String out = tasks.get(nr);
-		tasks.set(nr, text);
-		return ok(out).build();
+		Task out = tasks.get(nr);
+		out.setText(text);
+		out.setDueDate(date);
+		return ok(out.toString()).build();
 	}
 
 	@PUT
 	@Produces(TEXT_PLAIN)
 	public Response addNewTask(@QueryParam("text") @DefaultValue("") String text) {
 		logger.finest(() -> "add new task: " + text);
-		tasks.add(text);
+		tasks.add(new Task(text, ""));
 		return ok(Integer.toString(tasks.size())).build();
 	}
 
 	@DELETE
 	@Path("/{taskId}")
-	@Produces(TEXT_PLAIN)
+	@Produces(APPLICATION_JSON)
 	public Response deleteTask(@PathParam("taskId") String taskId) {
 		logger.finest(() -> "removing " + taskId);
 		int nr = Integer.parseInt(taskId);
-		String out = tasks.remove(nr);
-		return ok(out).build();
+		Task out = tasks.remove(nr);
+		return ok(out.toString()).build();
 	}
 }

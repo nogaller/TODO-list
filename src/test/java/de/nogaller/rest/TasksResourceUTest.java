@@ -2,8 +2,6 @@ package de.nogaller.rest;
 
 import static org.junit.Assert.assertEquals;
 
-import java.io.File;
-
 import org.junit.Before;
 import org.junit.Test;
 
@@ -34,7 +32,7 @@ public class TasksResourceUTest {
 		assertEquals("2", out);
 
 		out = sut.getTaskList().getEntity();
-		assertEquals("[\"first\",\"second\"]", out);
+		assertEquals("[{\"first\",\"\"},{\"second\",\"\"}]", out);
 	}
 
 	@Test
@@ -43,14 +41,14 @@ public class TasksResourceUTest {
 
 		// get text
 		Object out = sut.getTaskInformation("1").getEntity();
-		assertEquals("second", out);
+		assertEquals("{\"second\",\"\"}", out);
 
-		out = sut.modifyTask("1", "third").getEntity();
-		assertEquals("second", out);
+		out = sut.modifyTask("1", "third", "2020-10-20").getEntity();
+		assertEquals("{\"third\",\"2020-10-20\"}", out);
 
 //		verify that value was updated
 		out = sut.getTaskInformation("1").getEntity();
-		assertEquals("third", out);
+		assertEquals("{\"third\",\"2020-10-20\"}", out);
 	}
 
 	@Test
@@ -58,15 +56,9 @@ public class TasksResourceUTest {
 		addNewItem();
 
 		Object out = sut.deleteTask("1").getEntity();
-		assertEquals("second", out);
+		assertEquals("{\"second\",\"\"}", out);
 
 		out = sut.getTaskList().getEntity();
-		assertEquals("[\"first\"]", out);
-	}
-
-	@Test
-	public void todo() throws Exception {
-		File file = new File("test");
-		System.out.println(file.getAbsolutePath());
+		assertEquals("[{\"first\",\"\"}]", out);
 	}
 }
