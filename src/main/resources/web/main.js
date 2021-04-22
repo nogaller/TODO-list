@@ -55,8 +55,12 @@ function removeTask(button) {
 	const idx = tr.querySelector('.taskId').innerText - 1
 	const xhr = new XMLHttpRequest();
 	xhr.onreadystatechange = () => {
-		if (xhr.readyState === XMLHttpRequest.DONE && xhr.status !== 200)
-			console.error(xhr.statusText);
+		if (xhr.readyState === XMLHttpRequest.DONE)
+			if (xhr.status === 200)
+// AJAX refresh list
+				loadData()
+			else
+				console.error(xhr.statusText);
 	}
 	xhr.open("DELETE", `${PATH}/${idx}`, true)
 	xhr.send("")
