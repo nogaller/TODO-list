@@ -3,8 +3,28 @@
 <head>
 <meta charset="UTF-8">
 <title>a simple TODO list</title>
+<link rel="stylesheet" type="text/css" href="main.css">
+<script src="main.js"></script>
 </head>
-<body>
-Hello world!
+<body onload="loadData()">
+	a KISS TODO-list web app
+	<p>
+	<table>
+		<tbody id="tasks">
+			<tr>
+				<th><input type="button" onclick="addTaskButton()" value="+"></th>
+				<th>Text</th>
+				<th>Bis</th>
+			</tr>
+		</tbody>
+	</table>
+	<template id="taskPrototype">
+		<tr>
+			<td></td>
+			<td><input type="text" onblur="onBlurInput(this)"></td>
+			<td><input type="date" onblur="onBlurInput(this)"></td>
+			<td><input type="button" onclick="removeTask(this)" value="-"></td>
+		</tr>
+	</template>
 </body>
 </html>

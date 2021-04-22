@@ -1,0 +1,50 @@
+@charset "UTF-8";
+
+.hidden {
+	display: none;
+}
+
+th {
+	text-align: center;
+}
+
+td {
+	border-left: 0px;
+	border-right: 0px;
+}
+
+tr:nth-child(2n) {
+	background: red;
+}
+
+input[type="button"] {
+	font-weight: bold;
+}
+
+/* Date order reformatting to: DDMMYYYY*/
+input[type="date"]::-webkit-datetime-edit, input[type="date"]::-webkit-inner-spin-button, input[type="date"]::-webkit-clear-button {
+  color: #fff;
+  position: relative;
+}
+
+input[type="date"]::-webkit-datetime-edit-year-field{
+  position: absolute !important;
+  padding: 2px;
+  color:#000;
+  left: 56px;
+}
+
+input[type="date"]::-webkit-datetime-edit-month-field{
+  position: absolute !important;
+  padding: 2px;
+  color:#000;
+  left: 26px;
+}
+
+input[type="date"]::-webkit-datetime-edit-day-field{
+  position: absolute !important;
+  color:#000;
+  padding: 2px;
+  left: 4px;  
+}
+
