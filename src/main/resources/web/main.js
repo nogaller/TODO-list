@@ -1,4 +1,5 @@
-const PATH = "http://localhost:8080/tasks"
+//for Testing const PATH = "http://localhost:8080/tasks"
+const PATH = "./tasks"
 
 /* LOAD */
 /* Load initial Tasks and show them */
