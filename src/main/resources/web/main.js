@@ -33,7 +33,15 @@ function renderList(text) {
 function removeTask(button) {
 	const tr = button.parentNode.parentNode
 	tr.remove()
-	//TODO
+
+	const idx = tr.children[0].innerText - 1
+	const xhr = new XMLHttpRequest();
+	xhr.onreadystatechange = () => {
+		if (xhr.readyState === XMLHttpRequest.DONE && xhr.status !== 200)
+			console.error(xhr.statusText);
+	}
+	xhr.open("DELETE", `${PATH}/${idx}`, true)
+	xhr.send("")
 }
 
 function addTask(text) {
@@ -72,3 +80,4 @@ function onBlurInput(elem) {
 	xhr.setRequestHeader("Content-Type", "text/plain")
 	xhr.send("")
 }
+
