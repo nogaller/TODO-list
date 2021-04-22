@@ -55,14 +55,14 @@ public class TasksResourceTest {
 		assertEquals("1", out);
 
 		out = path().request().get(String.class);
-		assertEquals("[{\"first\",\"\"}]", out);
+		assertEquals("[{\"text\":\"first\",\"date\":\"\"}]", out);
 
 		/* add item */
 		out = path().queryParam("text", "second").request().put(Entity.text("text")).readEntity(String.class);
 		assertEquals("2", out);
 
 		out = path().request().get(String.class);
-		assertEquals("[{\"first\",\"\"},{\"second\",\"\"}]", out);
+		assertEquals("[{\"text\":\"first\",\"date\":\"\"},{\"text\":\"second\",\"date\":\"\"}]", out);
 	}
 
 	@Test
@@ -72,14 +72,14 @@ public class TasksResourceTest {
 		/* update */
 		String out = target.path(PATH + "/1").queryParam("text", "third").queryParam("date", "2020-10-20").request()
 				.post(Entity.text("text")).readEntity(String.class);
-		assertEquals("{\"third\",\"2020-10-20\"}", out);
+		assertEquals("{\"text\":\"third\",\"date\":\"2020-10-20\"}", out);
 
 		/* getTaskInformation */
 		out = target.path(PATH + "/1").request().get(String.class);
-		assertEquals("{\"third\",\"2020-10-20\"}", out);
+		assertEquals("{\"text\":\"third\",\"date\":\"2020-10-20\"}", out);
 
 		out = path().request().get(String.class);
-		assertEquals("[{\"first\",\"\"},{\"third\",\"2020-10-20\"}]", out);
+		assertEquals("[{\"text\":\"first\",\"date\":\"\"},{\"text\":\"third\",\"date\":\"2020-10-20\"}]", out);
 	}
 
 	@Test
@@ -88,10 +88,10 @@ public class TasksResourceTest {
 
 		/* delete */
 		String out = target.path(PATH + "/0").request().delete(String.class);
-		assertEquals("{\"first\",\"\"}", out);
+		assertEquals("{\"text\":\"first\",\"date\":\"\"}", out);
 
 		out = path().request().get(String.class);
-		assertEquals("[{\"second\",\"\"}]", out);
+		assertEquals("[{\"text\":\"second\",\"date\":\"\"}]", out);
 	}
 
 }

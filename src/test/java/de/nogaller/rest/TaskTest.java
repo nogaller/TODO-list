@@ -9,12 +9,12 @@ public class TaskTest {
 	@Test
 	public void toStringEmpty() throws Exception {
 		Task task = new Task();
-		assertEquals("{\"\",\"\"}", task.toString());
+		assertEquals("{\"text\":\"\",\"date\":\"\"}", task.toString());
 	}
 
 	@Test
 	public void toStringFull() throws Exception {
-		Task task = new Task("some text", "2020-10-20");
-		assertEquals("{\"some text\",\"2020-10-20\"}", task.toString());
+		Task task = new Task("some test", "2020-10-20");
+		assertEquals("{\"text\":\"some test\",\"date\":\"2020-10-20\"}", task.toString());
 	}
 }

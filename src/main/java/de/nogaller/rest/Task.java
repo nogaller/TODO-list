@@ -32,6 +32,6 @@ public class Task {
 
 	@Override
 	public String toString() {
-		return String.format("{\"%s\",\"%s\"}", text, dueDate);
+		return String.format("{\"text\":\"%s\",\"date\":\"%s\"}", text, dueDate);
 	}
 }

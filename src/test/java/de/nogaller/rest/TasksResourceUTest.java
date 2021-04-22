@@ -32,7 +32,7 @@ public class TasksResourceUTest {
 		assertEquals("2", out);
 
 		out = sut.getTaskList().getEntity();
-		assertEquals("[{\"first\",\"\"},{\"second\",\"\"}]", out);
+		assertEquals("[{\"text\":\"first\",\"date\":\"\"},{\"text\":\"second\",\"date\":\"\"}]", out);
 	}
 
 	@Test
@@ -41,14 +41,14 @@ public class TasksResourceUTest {
 
 		// get text
 		Object out = sut.getTaskInformation("1").getEntity();
-		assertEquals("{\"second\",\"\"}", out);
+		assertEquals("{\"text\":\"second\",\"date\":\"\"}", out);
 
 		out = sut.modifyTask("1", "third", "2020-10-20").getEntity();
-		assertEquals("{\"third\",\"2020-10-20\"}", out);
+		assertEquals("{\"text\":\"third\",\"date\":\"2020-10-20\"}", out);
 
 //		verify that value was updated
 		out = sut.getTaskInformation("1").getEntity();
-		assertEquals("{\"third\",\"2020-10-20\"}", out);
+		assertEquals("{\"text\":\"third\",\"date\":\"2020-10-20\"}", out);
 	}
 
 	@Test
@@ -56,9 +56,9 @@ public class TasksResourceUTest {
 		addNewItem();
 
 		Object out = sut.deleteTask("1").getEntity();
-		assertEquals("{\"second\",\"\"}", out);
+		assertEquals("{\"text\":\"second\",\"date\":\"\"}", out);
 
 		out = sut.getTaskList().getEntity();
-		assertEquals("[{\"first\",\"\"}]", out);
+		assertEquals("[{\"text\":\"first\",\"date\":\"\"}]", out);
 	}
 }
