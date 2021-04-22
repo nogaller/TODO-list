@@ -1,5 +1,7 @@
 const PATH = "http://localhost:8080/tasks"
 
+/* LOAD */
+/* Load initial Tasks and show them */
 function loadData() {
 	const xhr = new XMLHttpRequest()
 	xhr.onload = (e) => {
@@ -16,6 +18,7 @@ function loadData() {
 	xhr.send(null)
 }
 
+/* Render server list */
 function renderList(text) {
 	console.log("text received: " + text)
 	const array = JSON.parse(text)
@@ -30,6 +33,17 @@ function renderList(text) {
 	}
 }
 
+/* clone template and insert it */
+function addTask(text) {
+	const clone = taskPrototype.content.children[0].cloneNode(true)
+	clone.querySelector('[type="text"]').value = text
+	clone.children[0].innerText = tasks.children.length
+	tasks.appendChild(clone)
+	return clone
+}
+
+/* DELETE */
+/* remove item from List and server */
 function removeTask(button) {
 	const tr = button.parentNode.parentNode
 	tr.remove()
@@ -44,14 +58,8 @@ function removeTask(button) {
 	xhr.send("")
 }
 
-function addTask(text) {
-	const clone = taskPrototype.content.children[0].cloneNode(true)
-	clone.querySelector('[type="text"]').value = text
-	clone.children[0].innerText = tasks.children.length
-	tasks.appendChild(clone)
-	return clone
-}
-
+/* CREATE */
+/* Handle click on ADD button */
 function addTaskButton() {
 	const clone = addTask("")
 
@@ -64,6 +72,8 @@ function addTaskButton() {
 	xhr.send("")
 }
 
+/* UPDATE */
+/* Text modified, save immediately */
 function onBlurInput(elem) {
 	const tr = elem.parentNode.parentNode
 	const idx = tr.children[0].innerText - 1
