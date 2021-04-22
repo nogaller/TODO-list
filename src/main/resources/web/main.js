@@ -66,8 +66,8 @@ function onBlurInput(elem) {
 			console.error(xhr.statusText);
 	}
 	const newText = tr.querySelector('[type="text"]').value
-	var newText2 = encodeURIComponent(newText)
-	xhr.open("POST", `${PATH}/${idx}?text=${newText}`, true)
+	const text = encodeURIComponent(newText)
+	xhr.open("POST", `${PATH}/${idx}?text=${text}`, true)
 	
 	xhr.setRequestHeader("Content-Type", "text/plain")
 	xhr.send("")
