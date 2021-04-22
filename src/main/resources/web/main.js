@@ -37,7 +37,7 @@ function renderList(text) {
 function addTask(text) {
 	const clone = taskPrototype.content.children[0].cloneNode(true)
 	clone.querySelector('[type="text"]').value = text
-	clone.children[0].innerText = tasks.children.length
+	clone.querySelector('.taskId').innerText = tasks.children.length
 	tasks.appendChild(clone)
 	return clone
 }
@@ -48,7 +48,7 @@ function removeTask(button) {
 	const tr = button.parentNode.parentNode
 	tr.remove()
 
-	const idx = tr.children[0].innerText - 1
+	const idx = tr.querySelector('.taskId').innerText - 1
 	const xhr = new XMLHttpRequest();
 	xhr.onreadystatechange = () => {
 		if (xhr.readyState === XMLHttpRequest.DONE && xhr.status !== 200)
@@ -76,7 +76,7 @@ function addTaskButton() {
 /* Text modified, save immediately */
 function onBlurInput(elem) {
 	const tr = elem.parentNode.parentNode
-	const idx = tr.children[0].innerText - 1
+	const idx = tr.querySelector('.taskId').innerText - 1
 
 	const xhr = new XMLHttpRequest();
 	xhr.onreadystatechange = () => {
