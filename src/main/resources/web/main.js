@@ -20,23 +20,26 @@ function loadData() {
 
 /* Render server list */
 function renderList(text) {
-	console.log("text received: " + text)
+	console.log("JSON received: " + text)
 	const array = JSON.parse(text)
 
+	// remove old entries
 	for (var i = tasks.children.length - 1; i > 0; i--) {
 		const tr = tasks.children[i]
 		tr.remove()
 	}
 
+	// insert new entries
 	for (const task of array) {
 		addTask(task)
 	}
 }
 
 /* clone template and insert it */
-function addTask(text) {
+function addTask(task) {
 	const clone = taskPrototype.content.children[0].cloneNode(true)
-	clone.querySelector('[type="text"]').value = text
+	clone.querySelector('[type="date"]').value = task.date
+	clone.querySelector('[type="text"]').value = task.text
 	clone.querySelector('.taskId').innerText = tasks.children.length
 	tasks.appendChild(clone)
 	return clone
@@ -61,7 +64,7 @@ function removeTask(button) {
 /* CREATE */
 /* Handle click on ADD button */
 function addTaskButton() {
-	const clone = addTask("")
+	const clone = addTask({date:"",text:""})
 
 	const xhr = new XMLHttpRequest();
 	xhr.onreadystatechange = () => {
@@ -85,7 +88,8 @@ function onBlurInput(elem) {
 	}
 	const newText = tr.querySelector('[type="text"]').value
 	const text = encodeURIComponent(newText)
-	xhr.open("POST", `${PATH}/${idx}?text=${text}`, true)
+	const newDate = tr.querySelector('[type="date"]').value
+	xhr.open("POST", `${PATH}/${idx}?text=${text}&date=${newDate}`, true)
 	
 	xhr.setRequestHeader("Content-Type", "text/plain")
 	xhr.send("")
