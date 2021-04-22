@@ -6,6 +6,8 @@
 
 th {
 	text-align: center;
+	font-weight: bold;
+	background: dodgerblue;
 }
 
 td {
@@ -13,8 +15,8 @@ td {
 	border-right: 0px;
 }
 
-tr:nth-child(2n) {
-	background: red;
+tr:nth-child(odd) {
+	background: lightskyblue;
 }
 
 input[type="button"] {
