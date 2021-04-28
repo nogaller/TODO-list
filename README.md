@@ -13,7 +13,7 @@ To test it with CURL do following steps:
 **curl -X PUT http://localhost:8080/tasks**  
 **curl -X POST http://localhost:8080/tasks/0?text="My%20text"**  
   
-or browse to **http://localhost:8080/main.html**  
+or browse to **http://localhost:8080/index.html**  or just http://localhost:8080
   
   
   
