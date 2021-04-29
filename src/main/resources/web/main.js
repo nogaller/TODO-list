@@ -1,11 +1,11 @@
-//for Testing const PATH = "http://localhost:8080/tasks"
+//for Testing: const PATH = "http://localhost:8080/tasks"
 const PATH = "./tasks"
 
 /* LOAD */
 /* Load initial Tasks and show them */
 function loadData() {
 	const xhr = new XMLHttpRequest()
-	xhr.onload = (e) => {
+	xhr.onload = () => {
 		if (xhr.readyState !== XMLHttpRequest.DONE)
 			return
 
@@ -14,7 +14,7 @@ function loadData() {
 		else
 			console.error(xhr.statusText);
 	};
-	xhr.onerror = (e) => console.error(xhr.statusText)
+	xhr.onerror = () => console.error(xhr.statusText)
 	xhr.open("GET", PATH, true) // true for asynchronous
 	xhr.send(null)
 }
@@ -25,12 +25,9 @@ function renderList(text) {
 	const array = JSON.parse(text)
 
 	// remove old entries
-	for (var i = tasks.children.length - 1; i > 0; i--) {
-		const tr = tasks.children[i]
-		tr.remove()
-	}
+	tasks.innerText = ''
 
-	// insert new entries
+	// insert downloaded entries
 	for (const task of array) {
 		addTask(task)
 	}
@@ -52,7 +49,7 @@ function removeTask(button) {
 	const tr = button.parentNode.parentNode
 	tr.remove()
 
-	const idx = tr.querySelector('.taskId').innerText - 1
+	const idx = tr.querySelector('.taskId').innerText
 	const xhr = new XMLHttpRequest();
 	xhr.onreadystatechange = () => {
 		if (xhr.readyState === XMLHttpRequest.DONE)
@@ -69,7 +66,8 @@ function removeTask(button) {
 /* CREATE */
 /* Handle click on ADD button */
 function addTaskButton() {
-	const clone = addTask({date:"",text:""})
+	// const clone = 
+	addTask({date:"",text:""})
 
 	const xhr = new XMLHttpRequest();
 	xhr.onreadystatechange = () => {
@@ -84,7 +82,7 @@ function addTaskButton() {
 /* Text modified, save immediately */
 function onBlurInput(elem) {
 	const tr = elem.parentNode.parentNode
-	const idx = tr.querySelector('.taskId').innerText - 1
+	const idx = tr.querySelector('.taskId').innerText
 
 	const xhr = new XMLHttpRequest();
 	xhr.onreadystatechange = () => {
@@ -94,7 +92,12 @@ function onBlurInput(elem) {
 	const newText = tr.querySelector('[type="text"]').value
 	const text = encodeURIComponent(newText)
 	const newDate = tr.querySelector('[type="date"]').value
-	xhr.open("POST", `${PATH}/${idx}?text=${text}&date=${newDate}`, true)
+
+	var path = `${PATH}/${idx}?text=${text}`
+	if (newDate)
+		path +=`&date=${newDate}`
+	console.log("Sending update to: " + path)
+	xhr.open("POST", path, true)
 	
 	xhr.setRequestHeader("Content-Type", "text/plain")
 	xhr.send("")
